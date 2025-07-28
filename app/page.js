@@ -2,6 +2,7 @@
 
 import BlogItem from "@/Components/BlogItem";
 import BlogList from "@/Components/BlogList";
+import Footer from "@/Components/Footer";
 import Header from "@/Components/Header";
 
 export default function Home() {
@@ -9,6 +10,7 @@ export default function Home() {
     <>
       <Header />
       <BlogList />
+      <Footer/>
     </>
   );
 }
