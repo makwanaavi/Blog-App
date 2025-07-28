@@ -1,17 +1,20 @@
-import { assets,} from "@/Assets/assets";
+import { assets } from "@/Assets/assets";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
-const BlogItem = ({ image, category, title, description }) => {
+const BlogItem = ({ image, category, title, description, id }) => {
   return (
     <div className="max-w-[330px] sm:max-w-[300px] bg-white border border-black hover:shadow-[-7px_7px_0px_#000000]">
-      <Image
-        src={image}
-        alt={title}
-        width={400}
-        height={400}
-        className="border border-black"
-      />
+      <Link href={`/blogs/${id}`}>
+        <Image
+          src={image}
+          alt={title}
+          width={400}
+          height={400}
+          className="border border-black"
+        />
+      </Link>
       <p className="ml-5 mt-5 px-1 inline-block bg-black text-white text-sm">
         {category}
       </p>
@@ -24,10 +27,10 @@ const BlogItem = ({ image, category, title, description }) => {
           {description}
         </p>
 
-        <div className="inline-flex items-center py-2 font-semibold text-center">
+        <Link href={`/blogs/${id}`} className="inline-flex items-center py-2 font-semibold text-center">
           Read more
           <Image src={assets.arrow} alt="Arrow" width={12} className="ml-2" />
-        </div>
+        </Link>
       </div>
     </div>
   );
