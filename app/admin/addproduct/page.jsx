@@ -37,6 +37,15 @@ const page = () => {
     const response = await axios.post("/api/blog", formData);
     if (response.data.success) {
       toast.success(response.data.msg);
+      setImage(false);
+      setData({
+        title: "",
+        description: "",
+        category: "Startup",
+        author: "Admin",
+        author_img: "/author_img.png",
+        image: null,
+      });
     } else {
       toast.error("Something went wrong, please try again later.");
     }

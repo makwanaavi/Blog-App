@@ -13,7 +13,10 @@ LoadDB()
 export async function GET(request) {
     console.log("Fetching blog data...");
 
-    return NextResponse.json({ msg: "--------------- Api is working fine --------" });
+    const blogs = await BlogModel.find({});
+
+
+    return NextResponse.json({blogs});
 }
 
 export async function POST(request) {
@@ -35,7 +38,7 @@ export async function POST(request) {
         category: `${formData.get('category')}`,
         author: `${formData.get('author')}`,
         image: `${imgUrl}`,
-         author_img: `${formData.get(' author_img')}`,
+        author_img: `${formData.get(' author_img')}`,
     }
 
     await BlogModel.create(blogData);
