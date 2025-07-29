@@ -2,7 +2,6 @@ import ConnectDB from "@/lib/config/db";
 import BlogModel from "@/lib/models/BlogModel";
 const { NextResponse } = require("next/server");
 import { writeFile } from "fs/promises";
-import { title } from "process";
 
 const LoadDB = async () => {
     await ConnectDB();
@@ -11,9 +10,15 @@ const LoadDB = async () => {
 LoadDB()
 
 export async function GET(request) {
-    console.log("Fetching blog data...");
-
-    return NextResponse.json({ msg: "--------------- Api is working fine --------" });
+    const blogId = request.nextUrl.searchParams.get("id");
+    if (blogId) {
+        const blog = await BlogModel.findById(blogId);
+        console.log(blog);
+        return NextResponse.json({ blog });
+    } else {
+        const blogs = await BlogModel.find({});
+        return NextResponse.json({ blogs });
+    }
 }
 
 export async function POST(request) {
@@ -35,7 +40,7 @@ export async function POST(request) {
         category: `${formData.get('category')}`,
         author: `${formData.get('author')}`,
         image: `${imgUrl}`,
-         author_img: `${formData.get(' author_img')}`,
+        author_img: `${formData.get(' author_img')}`,
     }
 
     await BlogModel.create(blogData);

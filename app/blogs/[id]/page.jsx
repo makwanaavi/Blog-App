@@ -5,31 +5,28 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Footer from "@/Components/Footer";
+import axios from "axios";
 
 const page = ({ params }) => {
   const [data, setData] = useState(null);
   const router = useRouter();
 
-  const fetchBlogData = () => {
-    for (let i = 0; i < blog_data.length; i++) {
-      if (Number(params.id) === blog_data[i].id) {
-        setData(blog_data[i]);
-        console.log(blog_data[i]);
-        break;
-      }
-    }
+  const fetchBlogData = async () => {
+    // for (let i = 0; i < blog_data.length; i++) {
+    //   if (Number(params.id) === blog_data[i].id) {
+    //     setData(blog_data[i]);
+    //     console.log(blog_data[i]);
+    //     break;
+    //   }
+    // }
+    const response = await axios.get("/api/blog", {
+      params: { id: params.id },
+    });
+    setData(response.data);
   };
   useEffect(() => {
     fetchBlogData();
-  });
-
-  // Find current blog index
-  const currentIndex = blog_data.findIndex(
-    (item) => item.id === Number(params.id)
-  );
-  const prevId = currentIndex > 0 ? blog_data[currentIndex - 1].id : null;
-  const nextId =
-    currentIndex < blog_data.length - 1 ? blog_data[currentIndex + 1].id : null;
+  }, []);
 
   return data ? (
     <>
@@ -54,7 +51,7 @@ const page = ({ params }) => {
             {data?.title}
           </h1>
           <Image
-            src={data.author_img}
+            src={data?.author_img}
             alt=""
             width={60}
             height={60}
@@ -68,7 +65,7 @@ const page = ({ params }) => {
 
       <div className="mx-5 max-w-[800px] md:mx-auto mt-[-100px] mb-10">
         <Image
-          src={data.image}
+          src={data?.image}
           width={1280}
           height={720}
           alt=""
@@ -148,7 +145,7 @@ const page = ({ params }) => {
               </Link>
             </div>
 
-            <div className="flex gap-6">
+            {/* <div className="flex gap-6">
               <button
                 onClick={() => prevId && router.push(`/blogs/${prevId}`)}
                 disabled={!prevId}
@@ -163,7 +160,7 @@ const page = ({ params }) => {
               >
                 Next
               </button>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
